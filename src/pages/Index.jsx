@@ -1,5 +1,6 @@
-
 import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FaUserMd, FaUser, FaStethoscope } from 'react-icons/fa';
 import Navbar from '../components/Navbar';
 import FileUpload from '../components/FileUpload';
 import SummaryOutput from '../components/SummaryOutput';
@@ -108,23 +109,66 @@ Consider for inclusion in updated clinical guidelines pending larger-scale valid
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50">
+    <div className={`min-h-screen transition-colors duration-700 ${
+      mode === 'patient' 
+        ? 'bg-gradient-to-br from-blue-50 via-white to-blue-50' 
+        : 'bg-gradient-to-br from-slate-50 via-gray-50 to-slate-100'
+    }`}>
       <Navbar mode={mode} onModeChange={setMode} />
       
-      <main className="container mx-auto px-4 py-8">
+      {/* Background Icons */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden">
+        <AnimatePresence mode="wait">
+          {mode === 'patient' ? (
+            <motion.div
+              key="patient-bg"
+              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+              animate={{ opacity: 0.03, scale: 1, rotate: 0 }}
+              exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            >
+              <FaUser className="text-blue-600 text-[500px] sm:text-[600px] md:text-[700px]" />
+            </motion.div>
+          ) : (
+            <motion.div
+              key="doctor-bg"
+              initial={{ opacity: 0, scale: 0.8, rotate: -10 }}
+              animate={{ opacity: 0.04, scale: 1, rotate: 0 }}
+              exit={{ opacity: 0, scale: 0.8, rotate: 10 }}
+              transition={{ duration: 0.8, ease: "easeInOut" }}
+              className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+            >
+              <FaStethoscope className="text-teal-700 text-[500px] sm:text-[600px] md:text-[700px]" />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+      
+      <main className="container mx-auto px-4 py-8 relative z-10">
         <div className="max-w-4xl mx-auto">
           {/* Hero Section */}
-          <div className="text-center mb-12">
-            <h1 className="text-4xl md:text-5xl font-bold text-gray-800 mb-4">
+          <motion.div 
+            key={mode}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center mb-12"
+          >
+            <h1 className={`text-4xl md:text-5xl font-bold mb-4 transition-colors duration-500 ${
+              mode === 'patient' ? 'text-gray-800' : 'text-slate-800'
+            }`}>
               Medical Report Summarizer
             </h1>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+            <p className={`text-lg max-w-2xl mx-auto transition-colors duration-500 ${
+              mode === 'patient' ? 'text-gray-600' : 'text-slate-600'
+            }`}>
               {mode === 'patient' 
                 ? "Get clear, easy-to-understand summaries of your medical reports"
                 : "Generate precise, clinical summaries of research papers and medical documents"
               }
             </p>
-          </div>
+          </motion.div>
 
           {/* Main Content */}
           <div className="grid lg:grid-cols-2 gap-8 items-start">
