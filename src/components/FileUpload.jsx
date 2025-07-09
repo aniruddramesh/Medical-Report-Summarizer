@@ -86,7 +86,7 @@ const FileUpload = ({ mode, onFileUpload, isProcessing }) => {
           className={`px-6 py-2 rounded-lg transition-all duration-300 font-medium ${
             mode === 'patient'
               ? 'bg-blue-500 hover:bg-blue-600 text-white'
-              : 'bg-teal-500 hover:bg-teal-600 text-white'
+              : 'bg-blue-500 hover:bg-blue-600 text-white'
           }`}
         >
           Choose File
@@ -122,7 +122,7 @@ const FileUpload = ({ mode, onFileUpload, isProcessing }) => {
                 ? 'bg-gray-300 cursor-not-allowed'
                 : mode === 'patient'
                   ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                  : 'bg-teal-600 hover:bg-teal-700 text-white'
+                  : 'bg-blue-600 hover:bg-blue-700 text-white'
             }`}
           >
             {isProcessing ? (
